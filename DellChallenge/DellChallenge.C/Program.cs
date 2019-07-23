@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace DellChallenge.C
 {
@@ -16,24 +17,25 @@ namespace DellChallenge.C
 
         private static void StartHere()
         {
-            myObject _MyNewObject = new myObject();
-            int obj1 = _MyNewObject.Do(1, 3);
-            int num2 = _MyNewObject.DoExtended(1, 3, 5);
-            Console.WriteLine(obj1);
-            Console.WriteLine(num2);
+            int sum1 = Calculator.Add(1, 3);
+            int sum2 = Calculator.Add(1, 3, 5);
+            Console.WriteLine(sum1);
+            Console.WriteLine(sum2);
         }
     }
 
-    class myObject
+
+    // it makes more sense for this class to be static in the actual context since it's not justified to be able to creeate multiple instances of calculator and it does not need to retain any information
+    // If in the requirments there would be diferent types of calculators than a non-static approach would make more sense
+    public static class Calculator
     {
-
-        public int Do(int a, int b)
+        public static int Add(params int[] values)
         {
-            return a + b;
-        }
-
-        public int DoExtended(int a, int b, int c)
-        { return a + b + c;
+            if (values == null || !values.Any())
+            {
+                return 0;
+            }
+            return values.Sum();
         }
     }
 }

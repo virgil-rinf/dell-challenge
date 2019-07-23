@@ -35,7 +35,7 @@ namespace DellChallenge.D1.Api
                 options.AddPolicy("AllowReactCors",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("http://localhost:3000", "http://localhost:5034")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();

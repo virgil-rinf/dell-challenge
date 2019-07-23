@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DellChallenge.B
 {
@@ -9,54 +11,78 @@ namespace DellChallenge.B
             // Given the classes and interface below, please constructor the proper hierarchy.
             // Feel free to refactor and restructure the classes/interface below.
             // (Hint: Not all species and Fly and/or Swim)
+
+            var human = new Human();
+            foreach(var a in human.GetSpecies())
+            {
+                Console.WriteLine(a);
+            }
+
+
+            Console.ReadKey();
         }
     }
 
-    public interface ISpecies
+    public interface ISpecie
     {
         void Eat();
         void Drink();
+        IEnumerable<string> GetSpecies();
+    }
+
+    public interface IFlyingSpecie : ISpecie
+    {
         void Fly();
+    }
+
+    public interface ISwimingSpecie : ISpecie
+    {
         void Swim();
     }
 
-    public class Species
+    public abstract class Specie : ISpecie
     {
-        public virtual void GetSpecies()
+        public virtual void Drink()
         {
-            Console.WriteLine($"Echo who am I?");
-        }
-    }
-
-    public class Human : ISpecies
-    {
-        public void Drink()
-        {
-            throw new NotImplementedException();
+            Console.WriteLine("I'm drinking");
         }
 
         public void Eat()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("I'm eating");
         }
 
-        public void Fly()
+        public virtual IEnumerable<string> GetSpecies()
         {
-            throw new NotImplementedException();
+            return GetType()
+                 .GetInterfaces()
+                 .Where(t => t.UnderlyingSystemType.GetInterfaces().Any(ti => ti == typeof(ISpecie)))
+                 .Select(t => t.Name);
         }
+    }
 
+    public sealed class Human : Specie, ISwimingSpecie
+    {
         public void Swim()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("I'm a swimming Human");
+        }
+    }
+       
+    public class Bird : Specie, IFlyingSpecie
+    {
+        public virtual void Fly()
+        {
+            Console.WriteLine("I'm a flying Bird");
         }
     }
 
-    public class Bird
+    public class Fish : Specie, ISwimingSpecie
     {
-    }
-
-    public class Fish
-    {
+        public virtual void Swim()
+        {
+            Console.WriteLine("I'm a swimming Fish");
+        }
     }
 }
 

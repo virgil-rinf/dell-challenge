@@ -1,0 +1,30 @@
+﻿@model DellChallenge.D2.Web.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>New</h1>
+
+<h4>Add New Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @foreach (var error in Model.Errors)
+        {
+        <div class="alert alert-danger">
+            <strong>Validation error!</strong> @error
+        </div>
+        }
+        <form asp-action="Update">
+            @Html.Partial("ProductPartial", Model)
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

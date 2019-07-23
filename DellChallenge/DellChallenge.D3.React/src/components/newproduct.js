@@ -20,7 +20,7 @@ class NewProduct extends Component {
       Category: this.state.Category
     };
 
-    fetch("http://localhost:5000/api/products", {
+    fetch("http://localhost:2534/api/products", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -59,6 +59,7 @@ class NewProduct extends Component {
             name="Name"
             onChange={this.handleInputChange}
             value={this.state.Name}
+            required
           />
           <span
             className="text-danger field-validation-valid"
@@ -77,6 +78,7 @@ class NewProduct extends Component {
             name="Category"
             onChange={this.handleInputChange}
             value={this.state.Category}
+            required
           />
           <span
             className="text-danger field-validation-valid"

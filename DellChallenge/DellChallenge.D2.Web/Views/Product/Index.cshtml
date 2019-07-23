@@ -1,16 +1,26 @@
 ﻿@model IEnumerable<DellChallenge.D2.Web.Models.ProductModel>
-
 @{
     ViewData["Title"] = "View";
 }
 <h4>All Products</h4>
 <hr />
-
-@foreach (var item in Model)
+@if (Model != null)
 {
-    <div class="row">
-        <div class="col-md-4">
-            @item.Name - @item.Category
+    foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                @item.Name - @item.Category
+            </div>
+            <div class="col-md-4">
+                @Html.ActionLink("edit","update", new { id = item.Id })
+                @Html.ActionLink(
+                "delete",
+                "delete",
+                new { id = item.Id },
+                new { onclick = "return confirm('Are you sure you wish to delete this product?');"})
+            </div>
+      
         </div>
-    </div>
+    }
 }

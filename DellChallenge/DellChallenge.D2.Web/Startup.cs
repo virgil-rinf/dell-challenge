@@ -25,6 +25,7 @@ namespace DellChallenge.D2.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IValidationService, ValidationService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -51,6 +52,8 @@ namespace DellChallenge.D2.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseHttpMethodOverride();
 
             app.UseMvc(routes =>
             {

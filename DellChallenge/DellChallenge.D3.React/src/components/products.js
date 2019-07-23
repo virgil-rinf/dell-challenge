@@ -12,25 +12,7 @@ class ProductList extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/api/products")
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            items: result
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+    this.loadProducts();
   }
 
   render() {
@@ -41,15 +23,54 @@ class ProductList extends React.Component {
       return <p>Loading...</p>;
     } else {
       return (
-          <ul>
+        <table>
             {items.map(item => (
-              <li key={item.id}>
-                {item.name} - {item.category}
-              </li>
+                
+                  <tr>
+                    <td>- {item.name} - {item.category}</td>
+                    <td><button className="btn btn-edit"> Edit </button></td>
+                    <td><button className="btn btn-danger" onClick={() => this.deleteProduct(item.id)}> Delete </button></td>                    
+                  </tr>                               
             ))}
-          </ul>
+          </table> 
       );
     }
+  }
+
+  loadProducts(){
+    fetch("http://localhost:2534/api/products")
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              isLoaded: true,
+              items: result
+            });
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          error => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        );
+  }
+
+  deleteProduct(id){
+    fetch("http://localhost:2534/api/products/" + id, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      mode: "cors"
+    })
+    .then(res => res.json())
+    .then(this.loadProducts())
+    .catch(err => console.log(err));    
   }
 }
 
